@@ -50,7 +50,7 @@ services:
       - GENERIC_TIMEZONE=UTC
     volumes:
       - n8n_data:/home/node/.n8n
-    restart: unless-stopped
+    restart: always
     networks:
       - web-scrape
   
@@ -67,7 +67,7 @@ services:
     volumes:
       - minio_data:/data
       - ./mc-config:/tmp/.mc
-    restart: unless-stopped
+    restart: always
     logging: *default-logging
     networks:
       - web-scrape

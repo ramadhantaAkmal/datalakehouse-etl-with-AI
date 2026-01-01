@@ -13,7 +13,7 @@ def scrape_jobs(token) -> dict:
         results = client.search({
         'engine': "google_jobs",
         'q': 'Data Engineer',
-        'location': 'United States',
+        'location': 'Indonesia',
         'hl': 'en',
         })
         return results
@@ -21,7 +21,7 @@ def scrape_jobs(token) -> dict:
     results = client.search({
         'engine': "google_jobs",
         'q': 'Data Engineer',
-        'location': 'United States',
+        'location': 'Indonesia',
         'hl': 'en',
         'next_page_token':token
     })

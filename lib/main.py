@@ -18,4 +18,3 @@ def main():
     current_date = datetime.date.today()
     df.to_json(f'/opt/airflow/lib/jobs-result-weekly/jobs-result-{current_date}.json', orient='records', indent=4)
     
-main()

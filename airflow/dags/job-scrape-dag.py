@@ -35,7 +35,7 @@ with DAG(
         provide_context=True
     )
     
-    call_api_task = SimpleHttpOperator(
+    run_n8n_task = SimpleHttpOperator(
         task_id='execute_ai_agent',
         http_conn_id='workflow_conn',
         endpoint='/webhook/8606c214-29e4-4dc8-a7ed-6aac1b6f1371',
@@ -48,4 +48,4 @@ with DAG(
         log_response=True,
     )
     
-    scrape_task >> load_task >> call_api_task
+    scrape_task >> load_task >> run_n8n_task
