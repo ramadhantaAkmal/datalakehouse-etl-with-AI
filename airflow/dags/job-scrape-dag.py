@@ -10,7 +10,6 @@ from airflow.providers.http.operators.http import SimpleHttpOperator
 from datetime import datetime
 from pendulum import duration
 from main import main
-from load_to_minio import upload_file_to_minio
 
 with DAG(
     dag_id='google_jobs_scrape',
@@ -29,12 +28,6 @@ with DAG(
         provide_context=True
     )
     
-    load_task = PythonOperator(
-        task_id = 'load_to_minio',
-        python_callable = upload_file_to_minio,
-        provide_context=True
-    )
-    
     run_n8n_task = SimpleHttpOperator(
         task_id='execute_ai_agent',
         http_conn_id='workflow_conn',
@@ -48,4 +41,4 @@ with DAG(
         log_response=True,
     )
     
-    scrape_task >> load_task >> run_n8n_task
+    scrape_task >> run_n8n_task

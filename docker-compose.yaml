@@ -54,12 +54,13 @@ services:
     networks:
       - web-scrape
   
+#DATALAKEHOUSE SERVICE
   spark-iceberg:
     image: tabulario/spark-iceberg
     container_name: spark-iceberg
     build: spark/
     networks:
-      iceberg_net:
+      - web-scrape
     depends_on:
       - rest
       - minio
@@ -70,6 +71,7 @@ services:
       - AWS_ACCESS_KEY_ID=admin
       - AWS_SECRET_ACCESS_KEY=password
       - AWS_REGION=us-east-1
+    restart: always
     ports:
       - 8888:8888
       - 8080:8080
@@ -79,7 +81,8 @@ services:
     image: apache/iceberg-rest-fixture
     container_name: iceberg-rest
     networks:
-      iceberg_net:
+      - web-scrape
+    restart: always
     ports:
       - 8181:8181
     environment:

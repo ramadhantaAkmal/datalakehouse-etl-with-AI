@@ -1,6 +1,7 @@
 import os
 import sys
 import datetime
+from io import BytesIO
 from minio.error import S3Error
 from dotenv import load_dotenv
 from utils.minio_util import connect_minio
@@ -14,9 +15,9 @@ current_date = datetime.date.today()
 
 bucket_name = os.getenv('BUCKET_NAME')
 object_name = f"jobs-result-{current_date}.json"
-file_path = f"/opt/airflow/lib/jobs-result-weekly/jobs-result-{current_date}.json"
+# file_path = f"/opt/airflow/lib/jobs-result-weekly/jobs-result-{current_date}.json"
     
-def upload_file_to_minio():
+def store_json(json):
     """
     Uploads a file to a MinIO bucket.
     """
@@ -32,14 +33,18 @@ def upload_file_to_minio():
             print(f"Bucket '{bucket_name}' created successfully.")
         else:
             print(f"Bucket '{bucket_name}' already exists.")
+            
+        json_bytes = BytesIO(json.encode('utf-8'))
 
         # Upload the file.
-        client.fput_object(
-            bucket_name,
-            object_name,
-            file_path,
+        client.put_object(
+            bucket_name=bucket_name,
+            object_name=object_name,
+            data=json_bytes,
+            content_type='application/json',
+            length=json_bytes.getbuffer().nbytes
         )
-        print(f"'{file_path}' is successfully uploaded as '{object_name}' to bucket '{bucket_name}'.")
+        print(f"json is successfully uploaded as '{object_name}' to bucket '{bucket_name}'.")
 
     except S3Error as e:
         print(f"Error uploading file: {e}")
