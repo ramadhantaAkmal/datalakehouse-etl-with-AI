@@ -32,3 +32,5 @@ def main():
         compression="zstd",
         partition_by="ingestion_date"
     )
+
+main()

@@ -5,7 +5,7 @@ import requests
 def extract_with_n8n(df1: pl.DataFrame):
     df1 = df1.with_row_index(name="index",offset=1)
     json_object = json.loads(df1.write_json())
-    response = requests.post('http://localhost:5678/webhook-test/b41fb2f1-e65f-4b02-9e32-3629214ca314', json=json_object)
+    response = requests.post('http://localhost:5678/webhook/b41fb2f1-e65f-4b02-9e32-3629214ca314', json=json_object)
 
     extracted_data = response.json()
     df2 = pl.DataFrame(extracted_data["output"])
