@@ -6,8 +6,6 @@ from pyiceberg.types import (
 from pyiceberg.partitioning import PartitionSpec, PartitionField
 
 def create_table(catalog):
-    
-
     # Step 4: Infer or Define Schema (match your Polars DF schema)
     # Use PyIceberg types - adjust based on df.schema
     schema = Schema(
@@ -36,9 +34,8 @@ def create_table(catalog):
    
     # Partition by 'date' for dated files
     catalog.create_table(
-        identifier="default.jobs_results_bronze",  # namespace.table_name
+        identifier=("default", "jobs_results_bronze"),  # namespace.table_name
         schema=schema,
-        location="s3://iceberg-tables/jobs_results_bronze",  
         partition_spec=partition_spec  # or 'day(date)' for daily
     )
 
