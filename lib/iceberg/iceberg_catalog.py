@@ -1,7 +1,6 @@
 from pyiceberg.catalog import load_catalog
-from pyiceberg import Catalog
 
-def catalog_load() -> Catalog:
+def catalog_load():
     return load_catalog(
         "catalog",
         type="rest",

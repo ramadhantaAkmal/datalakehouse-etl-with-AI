@@ -4,7 +4,7 @@ from pyiceberg.types import *
 from pyiceberg.partitioning import PartitionSpec, PartitionField
 
 def create_table(catalog):
-    table_id = ("job_results", "jobs_results_bronze")
+    table_id = ("job_results", "jobs_results_silver")
     tables = catalog.list_tables("job_results")
     
     if table_id in tables:
@@ -31,13 +31,13 @@ def create_table(catalog):
             PartitionField(
                 source_id=11,
                 field_id=1001,
-                transform="day",
+                transform="identity",
                 name="ingestion_date"
             )
         )
 
         catalog.create_table(
-            identifier=("job_results", "jobs_results_raw"),  # namespace.table_name
+            identifier=("job_results", "jobs_results_silver"),  # namespace.table_name
             schema=schema,
             partition_spec=partition_spec  # or 'day(date)' for daily
         )

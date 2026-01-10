@@ -37,7 +37,7 @@ def create_table(catalog):
     
         # Partition by 'date' for dated files
         catalog.create_table(
-            identifier=("job_results", "jobs_results_raw"),  # namespace.table_name
+            identifier=("job_results", "jobs_results_bronze"),  # namespace.table_name
             schema=schema,
             partition_spec=partition_spec  # or 'day(date)' for daily
         )
