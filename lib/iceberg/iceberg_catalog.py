@@ -1,8 +1,8 @@
 from pyiceberg.catalog import load_catalog
-from create_table import create_table
+from pyiceberg import Catalog
 
-def main():
-    catalog = load_catalog(
+def catalog_load() -> Catalog:
+    return load_catalog(
         "catalog",
         type="rest",
         uri="http://localhost:8181",
@@ -18,15 +18,3 @@ def main():
             "s3.allow-http": "true",
         }
     )
-    
-    catalog.create_namespace_if_not_exists("default")
-
-    table_id = ("default", "jobs_results_bronze")
-    
-    tables = catalog.list_tables("default")
-
-    if table_id in tables:
-        print("Table already exists!")
-    else:
-        create_table(catalog)
-main()
