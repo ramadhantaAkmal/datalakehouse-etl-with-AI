@@ -1,6 +1,4 @@
-from pyiceberg.catalog import load_catalog
-from append_table.append_data import append_raw_data
-from create_table import bronze,silver
+from create_table import bronze,silver,gold
 from iceberg_catalog import catalog_load
 
 def initialize():
@@ -10,6 +8,8 @@ def initialize():
 
     bronze.create_table(catalog)
     silver.create_table(catalog)
+    gold.create_table1(catalog)
+    gold.create_table2(catalog)
     
     
 initialize()
