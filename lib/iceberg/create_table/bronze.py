@@ -1,7 +1,7 @@
 import pyarrow as pa
 from pyiceberg.schema import Schema
 from pyiceberg.types import (
-    NestedField, StringType, IntegerType, ListType, TimestampType
+    NestedField, StringType, IntegerType, ListType, DateType
 )  
 from pyiceberg.partitioning import PartitionSpec, PartitionField
 
@@ -23,7 +23,7 @@ def create_table(catalog):
             NestedField(field_id=9, name="responsibilities", field_type=ListType(element_id=103, element_type=StringType(), element_required=False), required=False),
             NestedField(field_id=10, name="tools_requirement", field_type=ListType(element_id=104, element_type=StringType(), element_required=False), required=False),
             NestedField(field_id=11, name="years_of_experience", field_type=StringType(), required=False),  # or IntegerType if numeric
-            NestedField(field_id=12, name="ingestion_date", field_type=TimestampType(), required=True)  # for partitioning
+            NestedField(field_id=12, name="ingestion_date", field_type=DateType(), required=False)  # for partitioning
         )
 
         partition_spec = PartitionSpec(

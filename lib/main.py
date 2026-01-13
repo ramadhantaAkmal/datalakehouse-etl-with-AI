@@ -26,6 +26,8 @@ def main():
     json_string = df.write_json(file=None)
     store_json(json_string)
     
+    df.drop_in_place('apply_options')
+    
     df.write_parquet(
         "s3://jobs-results-lake/",
         storage_options=storage_options,
