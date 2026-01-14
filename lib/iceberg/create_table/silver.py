@@ -17,8 +17,9 @@ def create_table(catalog):
             NestedField(4, "location", StringType()),
             NestedField(5, "description", StringType()),
             NestedField(6, "schedule_type", StringType()),
-            NestedField(7, "years_of_experience", IntegerType()),
+            NestedField(7, "YoE", StringType()),
 
+            NestedField(8, "responsibilities", ListType(107, StringType(), False)),
             NestedField(8, "qualifications", ListType(108, StringType(), False)),
             NestedField(9, "benefits", ListType(109, StringType(), False)),
             NestedField(10, "tools_requirement", ListType(110, StringType(), False)),
