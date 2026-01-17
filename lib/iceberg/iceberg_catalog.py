@@ -1,8 +1,8 @@
-from pyiceberg.catalog import load_catalog
+from pyiceberg.catalog import load_catalog,Catalog
 
-def catalog_load():
+def catalog_load()->Catalog:
     return load_catalog(
-        "catalog",
+        "rest-catalog",
         type="rest",
         uri="http://localhost:8181",
         warehouse="s3://warehouse/",
