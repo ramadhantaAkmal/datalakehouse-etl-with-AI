@@ -1,7 +1,7 @@
 import polars as pl
 from .iceberg_catalog import catalog_load
 
-def append_data(df: pl.DataFrame):
+def transform_load_brz(df: pl.DataFrame):
     catalog = catalog_load()
     
     table = catalog.load_table(("job_results", "jobs_results_bronze"))
