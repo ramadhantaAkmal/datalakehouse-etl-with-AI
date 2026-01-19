@@ -3,6 +3,6 @@ from transform_table import silver,gold
 
 def transform():
     catalog = catalog_load()
-    gold.transform_gold(catalog)
+    silver.transform_silver(catalog)
     
 transform()

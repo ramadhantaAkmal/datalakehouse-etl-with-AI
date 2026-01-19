@@ -1,27 +1,20 @@
-import serpapi
-import os
-
-from dotenv import load_dotenv
-load_dotenv()
-
-api_key = os.getenv('SERPAPI_KEY') 
-client = serpapi.Client(api_key=api_key)
+import polars as pl
+from jobspy import scrape_jobs
 
 #Ingest data
-def scrape_jobs(token) -> dict:
-    if token == "":
-        results = client.search({
-        'engine': "google_jobs",
-        'q': 'Junior Data Engineer singapore',
-        })
-        return results
-    
-    results = client.search({
-        'engine': "google_jobs",
-        'q': 'Junior Data Engineer singapore',
-        'next_page_token':token
-    })
-    return results.as_dict()
+def ingest() -> pl.DataFrame:
+    jobs = scrape_jobs(
+            site_name=["linkedin"],
+            search_term="data engineer",
+            location="Jakarta",
+            results_wanted=40,
+            hours_old=168,
+            linkedin_fetch_description=True
+        )
+
+    df = pl.from_pandas(jobs)
+    df = df["title","company","location","description","job_type","job_url"]
+    return df
 
 
 

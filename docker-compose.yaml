@@ -65,7 +65,6 @@ services:
       - rest
       - minio
     volumes:
-      - ./warehouse:/home/iceberg/warehouse
       - ./notebooks:/home/iceberg/notebooks/notebooks
     environment:
       - AWS_ACCESS_KEY_ID=admin
@@ -88,17 +87,18 @@ services:
     ports:
       - 8181:8181
     volumes:
-      - iceberg_catalog:/tmp/iceberg
+      - ./catalog:/home/iceberg
     environment:
       - AWS_ACCESS_KEY_ID=admin
       - AWS_SECRET_ACCESS_KEY=password
       - AWS_REGION=us-east-1
       - CATALOG_WAREHOUSE=s3://warehouse/
+      - CATALOG_URI=jdbc:sqlite:file:/home/iceberg/iceberg.db
       - CATALOG_IO__IMPL=org.apache.iceberg.aws.s3.S3FileIO
       - CATALOG_S3_ENDPOINT=http://minio:9000
       # 🔑 JDBC METASTORE
       - CATALOG_CATALOG_IMPL=org.apache.iceberg.jdbc.JdbcCatalog
-      - CATALOG_JDBC_URI=jdbc:postgresql://postgres:5435/iceberg
+      - CATALOG_JDBC_URI=jdbc:postgresql://iceberg-postgres:5432/iceberg
       - CATALOG_JDBC_USER=iceberg
       - CATALOG_JDBC_PASSWORD=iceberg
   iceberg-postgres:
@@ -275,5 +275,4 @@ volumes:
   minio_data:
   postgres_data:
   iceberg_postgres_data:
-  iceberg_catalog:
   logs:

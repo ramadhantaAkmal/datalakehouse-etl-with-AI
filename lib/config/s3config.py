@@ -1,11 +1,11 @@
-import os
-from dotenv import load_dotenv
+# import os
+# from dotenv import load_dotenv
 
-load_dotenv("../.env")
+# load_dotenv("../.env")
 
-access_key = os.getenv('MINIO_ACCESS_KEY')
-secret_key = os.getenv('MINIO_SECRET_KEY')
-minio_endpoint = os.getenv('MINIO_ENDPOINT')
+access_key = "admin"
+secret_key = "password"
+minio_endpoint = "localhost:9000"
 
 storage_options = {
     "aws_access_key_id": access_key,  # your MinIO access key

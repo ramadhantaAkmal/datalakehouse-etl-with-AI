@@ -1,9 +1,11 @@
-from iceberg_catalog import catalog_load
-from append_table.append_data import append_raw_data
+import polars as pl
+from .iceberg_catalog import catalog_load
 
-def append_data():
+def append_data(df: pl.DataFrame):
     catalog = catalog_load()
     
-    append_raw_data(catalog)
-    
-append_data()
+    table = catalog.load_table(("job_results", "jobs_results_bronze"))
+
+    arrow_table = df.to_arrow()
+
+    table.append(arrow_table)
