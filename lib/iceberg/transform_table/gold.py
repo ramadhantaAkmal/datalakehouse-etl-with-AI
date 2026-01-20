@@ -1,28 +1,30 @@
 import polars as pl
 from pyiceberg.catalog import Catalog
 
-def transform_gold(catalog: Catalog):
+def transform_gold(df:pl.DataFrame, catalog: Catalog):
     silver = catalog.load_table(("job_results", "jobs_results_silver"))
-    gold = catalog.load_table(("job_results", "tools_demand_gold"))
-    
     ori_table = pl.from_arrow(silver.scan().to_arrow())
     
+    df_tool = (ori_table.explode("tools_requirement")
+      .filter(pl.col("tools_requirement").is_not_null())
+      .group_by("tools_requirement")
+      .agg(pl.len().alias("count"))
+      .rename({"tools_requirement": "tool_name"})
+      .sort("count",descending=True))
     
-    df_exploded = (
-        ori_table
-        .select(["job_id", "tools_requirement", "ingestion_date"])
-        .explode("tools_requirement")
-        .rename({"tools_requirement": "tool"})
-    )
+    arrow_table = df_tool.to_arrow()
     
-    tools_demand_gold = (
-        df_exploded
-        .group_by(["tool", "ingestion_date"])
-        .agg(
-            pl.count("job_id").alias("job_count")
-        )
-    )
+    for i, field in enumerate(arrow_table.schema):
+            if field.name in {"tool_name", "count"}:
+                arrow_table = arrow_table.set_column(
+                    i,
+                    field.with_nullable(False),
+                    arrow_table.column(i),
+                )  
     
-    print(tools_demand_gold)
+    table = catalog.load_table(("job_results", "jobs_tools_count"))
+    table.overwrite(arrow_table)
+    
+    
 
 

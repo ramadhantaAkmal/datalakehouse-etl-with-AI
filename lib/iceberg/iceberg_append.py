@@ -9,3 +9,4 @@ def transform_load_brz(df: pl.DataFrame):
     arrow_table = df.to_arrow()
 
     table.append(arrow_table)
+    catalog.close()

@@ -6,10 +6,10 @@ def initialize():
     
     catalog.create_namespace_if_not_exists("job_results")
 
-    bronze.create_table(catalog)
-    silver.create_table(catalog)
-    gold.create_table1(catalog)
-    gold.create_table2(catalog)
+    # bronze.create_table(catalog)
+    # silver.create_table(catalog)
+    gold.create_table(catalog)
+    catalog.close()
     
     
 initialize()
