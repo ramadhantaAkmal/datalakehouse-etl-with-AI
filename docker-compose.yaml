@@ -238,6 +238,7 @@ services:
     container_name: trino
     networks:
       - google-jobs-net
+      - superset-net
     environment:
       - TRINO_USER=admin
       - TRINO_PASSWORD=admin
@@ -251,24 +252,26 @@ services:
       - ./trino/iceberg.properties:/etc/trino/catalog/iceberg.properties
 
 #SUPERSET
-  superset:
-    build:
-      context: ./superset
-    container_name: superset
-    restart: always
-    networks:
-      - google-jobs-net
-    environment:
-      - ADMIN_USERNAME=admin
-      - ADMIN_EMAIL=admin@superset.com
-      - ADMIN_PASSWORD=admin
-    ports:
-      - 8088:8088
+  # superset:
+  #   build:
+  #     context: ./superset
+  #   container_name: superset
+  #   restart: always
+  #   networks:
+  #     - google-jobs-net
+  #   environment:
+  #     - ADMIN_USERNAME=admin
+  #     - ADMIN_EMAIL=admin@superset.com
+  #     - ADMIN_PASSWORD=admin
+  #   ports:
+  #     - 8088:8088
 
 networks:
   google-jobs-net:
     driver: bridge
     name: google-jobs-net
+  superset-net:
+    external: true
 
 volumes:
   n8n_data:
