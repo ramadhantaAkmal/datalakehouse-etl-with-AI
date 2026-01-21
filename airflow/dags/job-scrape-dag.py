@@ -15,7 +15,7 @@ with DAG(
     dag_id='google_jobs_scrape',
     start_date = datetime(2025,11,9),
     schedule= '@weekly',
-    catchup=True,
+    catchup=False,
     description='weekly scrape jobs',
     tags=['scrape','weekly'],
     default_args={"retries":1},

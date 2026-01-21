@@ -1,8 +1,15 @@
 FROM apache/airflow:2.9.3
 
 USER root
+
 RUN apt-get update && apt-get install -y --no-install-recommends sshpass && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 USER airflow
-RUN pip install --no-cache-dir serpapi python-dotenv minio
+
+RUN python -m pip install \
+    polars \
+    python-dotenv \
+    minio \
+    python-jobspy \
+    pyiceberg[s3fs,pyarrow,polars]
