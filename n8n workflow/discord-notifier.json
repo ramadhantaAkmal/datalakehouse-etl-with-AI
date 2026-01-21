@@ -1,5 +1,5 @@
 {
-  "name": "web-scrape",
+  "name": "discord-notifier",
   "nodes": [
     {
       "parameters": {
@@ -9,8 +9,8 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        -368,
-        16
+        -288,
+        -192
       ],
       "id": "67218ad9-ed6e-4706-88a7-4514c75cf034",
       "name": "Webhook",
@@ -18,14 +18,14 @@
     },
     {
       "parameters": {
-        "bucketName": "jobs-result-semi-refined",
+        "bucketName": "jobs-result-json",
         "fileKey": "=jobs-result-{{ $json.formattedDate }}.json"
       },
       "type": "n8n-nodes-base.s3",
       "typeVersion": 1,
       "position": [
-        0,
-        16
+        80,
+        -192
       ],
       "id": "037e79b7-72f3-4ccd-9bb0-077046621032",
       "name": "Download a file",
@@ -46,8 +46,8 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1,
       "position": [
-        176,
-        16
+        256,
+        -192
       ],
       "id": "baa7ace1-5b89-4b49-8660-49e30c068136",
       "name": "Extract from File"
@@ -61,25 +61,11 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3,
       "position": [
-        576,
-        16
+        656,
+        -192
       ],
       "id": "2e12c8cd-690d-42fb-93b3-edac1a13cd02",
       "name": "AI Agent"
-    },
-    {
-      "parameters": {
-        "sessionIdType": "customKey",
-        "sessionKey": "okelah"
-      },
-      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
-      "typeVersion": 1.3,
-      "position": [
-        1088,
-        304
-      ],
-      "id": "903d1615-627c-41e3-8981-051f80513bd3",
-      "name": "Simple Memory"
     },
     {
       "parameters": {
@@ -98,8 +84,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        384,
-        16
+        464,
+        -192
       ],
       "id": "54fe97ed-9755-42e5-b240-74b4bfca25a1",
       "name": "Edit Fields1"
@@ -111,8 +97,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatMistralCloud",
       "typeVersion": 1,
       "position": [
-        576,
-        224
+        560,
+        16
       ],
       "id": "8b69a8e5-c2fc-4400-99d0-e1590f8ded3d",
       "name": "Mistral Cloud Chat Model",
@@ -132,8 +118,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        896,
-        16
+        976,
+        -192
       ],
       "id": "bc6176f8-0aed-47fd-8213-c53f317d72c0",
       "name": "Discord",
@@ -155,11 +141,49 @@
       "type": "n8n-nodes-base.dateTime",
       "typeVersion": 2,
       "position": [
-        -176,
-        16
+        -96,
+        -192
       ],
       "id": "707f7e7c-821c-4909-a4ae-9129b2116c90",
       "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "vector store for top 3 job choices",
+        "memoryKey": {
+          "__rl": true,
+          "mode": "list",
+          "value": "vector_store_key"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        800,
+        0
+      ],
+      "id": "631def35-4518-4971-b011-8c897967fe35",
+      "name": "Simple Vector Store"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsMistralCloud",
+      "typeVersion": 1,
+      "position": [
+        784,
+        160
+      ],
+      "id": "5d585abf-9605-4863-b789-e5416b058bbc",
+      "name": "Embeddings Mistral Cloud",
+      "credentials": {
+        "mistralCloudApi": {
+          "id": "YT6n0jsRlgZlODg5",
+          "name": "Mistral Cloud account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -195,11 +219,6 @@
             "index": 0
           }
         ]
-      ]
-    },
-    "Simple Memory": {
-      "ai_memory": [
-        []
       ]
     },
     "Edit Fields1": {
@@ -245,13 +264,35 @@
           }
         ]
       ]
+    },
+    "Simple Vector Store": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Mistral Cloud": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "8180e3e6-8f2d-4457-86e9-21f64fd1aaf4",
+  "versionId": "8a76e441-89f7-487d-ade9-cfbd16db51e4",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "47ade5423a412ebbe99ad9c967e18024b9de955cc89655d8354f57dae187236e"
